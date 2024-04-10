@@ -1,0 +1,53 @@
+.max-width {
+  max-width: 70rem;
+  padding: 1rem;
+  margin: auto;
+  // margin-inline-end: 220px;
+}
+
+.modal {
+  padding: 1rem;
+  .inner {
+    position: absolute;
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    translate: -50% -50%;
+    top: 50%;
+    left: 50%;
+    min-width: 26rem;
+    max-width: calc(100% - 1rem);
+
+    .content {
+      padding: 1rem;
+      // min-height: 10rem;
+    }
+    .header {
+      padding: 1rem;
+      border-bottom: thin solid var(--grey-300);
+    }
+    .footer {
+      padding: 1rem;
+      border-top: thin solid var(--grey-300);
+    }
+  }
+}
+
+#tooltip {
+  .tooltip {
+    position: fixed;
+    top: 1rem;
+    inset-inline-end: 1rem;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    z-index: 9999999;
+    background-color: var(--grey-300);
+    animation: slider-in 1s forwards;
+
+  }
+}
+
+@keyframes slider-in {
+  from {
+    translate: -100% 0;
+  }
+}

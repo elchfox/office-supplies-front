@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+import { ThemeProvider } from "@mui/material";
+import { Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
+import rtlPlugin from "stylis-plugin-rtl";
+import "./App.scss";
+import AuthLayout from "./layout/AuthLayout";
+import DashboardLayout from "./layout/DashboardLayout";
+import BaseLayout from "./pages/BaseLayout";
+import LoginPage from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import { allDataLayout } from "./utils/layoutTable";
+import { theme } from "./utils/theme";
 
-function App() {
+const cacheRtl = createCache({
+  key: "muirtl",
+  stylisPlugins: [rtlPlugin],
+});
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CacheProvider value={cacheRtl}>
+      <ThemeProvider theme={theme}>
+        <Suspense>
+          <Routes>
+            <Route path="/login" element={<AuthLayout />}>
+              <Route index element={<LoginPage />} />
+            </Route>
+            <Route path="/" element={<DashboardLayout />}>
+              {Object.keys(allDataLayout).map((page,index) => 
+                <Route path={allDataLayout[page].action} key={index} element={<BaseLayout  {...allDataLayout[page]} />} />
+              
+              )}
+              {/* <Route path="/role" element={<Role />} />
+              <Route path="/equipment" element={<Equipment />} /> */}
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </ThemeProvider>
+    </CacheProvider>
   );
-}
+};
 
 export default App;
